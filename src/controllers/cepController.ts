@@ -1,28 +1,40 @@
 import { Request, Response } from "express";
 
+import { CepInfoModel } from "../models/CepInfoModel";
 import { api } from "../services/api";
 
 export const getCepInfo = async (req: Request, res: Response) => {
   try {
     const { data } = await api.get(`/${req.params.cep}/json`);
 
-    if (!data) {
-      res.status(400).json({
+    if (data.erro) {
+      return res.json(404).json({
         error: true,
-        code: "api.invalid",
-        message: "Invalid CEP format",
+        code: "viacep.not_found",
+        message: "Resource not found in ViaCep API",
       });
     }
 
-    res.status(200).json({
+    const cep = {
+      cep: String(data.cep).replace("-", ""),
+      logradouro: data.logradouro,
+      complemento: data.complemento,
+      bairro: data.bairro,
+      localidade: data.localidade,
+      uf: data.uf,
+    };
+
+    const cepInfo = await CepInfoModel.create(cep);
+
+    return res.status(200).json({
       success: true,
-      data,
+      data: cepInfo,
     });
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       error: true,
       code: "server.internal_error",
-      message: "Server internal error",
+      message: err,
     });
   }
 };
