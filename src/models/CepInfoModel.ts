@@ -1,6 +1,7 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
-// Interface do Typescript que extende as propriedades de um documento do mongoDB
+// Interface do Typescript com as propriedades de um cep retornado pelo serviço ViaCep,
+// que extende as propriedades de um documento do mongoDB
 export interface CepInfo extends Document {
   cep: string;
   logradouro: string;
