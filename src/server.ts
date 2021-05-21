@@ -4,7 +4,6 @@ import { cepRouter } from "./routes/cepRouter";
 import { connectDB } from "./config/db";
 import cors from "cors";
 import dotenv from "dotenv";
-import morgan from "morgan";
 
 // Carregar as variáveis de ambiente do arquivo .env
 dotenv.config();
@@ -18,7 +17,12 @@ const DB_URI = String(process.env.DB_URI);
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(morgan("dev"));
+
+if (process.env.NODE_ENV !== "production") {
+  const morgan = require("morgan");
+
+  app.use(morgan("dev"));
+}
 
 // Chama a função que conecta o banco de dados dado uma URI e retorna uma função do mongoose para trabalharmos com a conexão
 const connection = connectDB(DB_URI);
