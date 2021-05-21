@@ -1,5 +1,6 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
+// Interface do Typescript que extende as propriedades de um documento do mongoDB
 export interface CepInfo extends Document {
   cep: string;
   logradouro: string;
@@ -9,6 +10,7 @@ export interface CepInfo extends Document {
   uf: string;
 }
 
+// Cria um novo Schema do mongoDB
 const cepInfoSchema: Schema<CepInfo> = new mongoose.Schema({
   cep: { type: String, unique: true },
   logradouro: String,
@@ -18,6 +20,7 @@ const cepInfoSchema: Schema<CepInfo> = new mongoose.Schema({
   uf: String,
 });
 
+// Cria um novo modelo do mongoDB utilizando o Schema anterior
 export const CepInfoModel: Model<CepInfo> = mongoose.model(
   "CepInfo",
   cepInfoSchema
