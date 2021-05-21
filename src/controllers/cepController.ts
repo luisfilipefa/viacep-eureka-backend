@@ -1,6 +1,6 @@
-import { CepInfo, CepInfoModel } from "../models/CepInfoModel";
 import { Request, Response } from "express";
 
+import { CepInfoModel } from "../models/CepInfoModel";
 import { api } from "../services/api";
 
 // Função que recebe um cep como parâmetro nos dados da requisição e
