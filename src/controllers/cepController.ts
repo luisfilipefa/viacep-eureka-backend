@@ -14,10 +14,16 @@ export const getCepInfo = async (req: Request, res: Response) => {
     const { data } = await api.get(`/${req.params.cep}/json`);
 
     if (data.erro) {
-      return res.status(400).json({
-        error: true,
-        code: "viacep.not_found",
-        message: "Resource not found in ViaCep API",
+      return res.status(200).json({
+        success: true,
+        cepInfo: {
+          cep: "",
+          logradouro: "",
+          complemento: "",
+          bairro: "",
+          localidade: "",
+          uf: "",
+        },
       });
     }
 
